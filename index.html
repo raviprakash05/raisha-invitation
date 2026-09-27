@@ -88,10 +88,10 @@
   <div class="section-head reveal"><div class="section-kicker">A year of little moments</div><h2>Love, laughter &amp; memories</h2><p>Watch a few of our favourite moments drift by — from tiny beginnings to family adventures.</p></div>
   <div class="memory-rail">
     <div class="feature-photo reveal" id="featurePhoto">
-      <img src="assets/photo-6.jpg" class="active" alt="Raisha with Papa and Mummy">
-      <img src="assets/photo-5.jpg" alt="Raisha with her family by the sea">
-      <img src="assets/photo-8.jpg" alt="Raisha with her grandparents">
-      <img src="assets/photo-3.jpg" alt="Smiling Raisha with red roses">
+      <img src="assets/photo-6.jpg" class="active" alt="Raisha with Papa and Mummy" data-title="Papa, Mummy &amp; Raisha" data-sub="A little family, a lot of love.">
+      <img src="assets/photo-5.jpg" alt="Raisha playing in the water" data-title="Splashy little moments." data-sub="Joy bubbles up in every little splash.">
+      <img src="assets/photo-8.jpg" alt="Raisha with her grandparents" data-title="Grandparents ♡" data-sub="Generations of love in one frame.">
+      <img src="assets/photo-3.jpg" alt="Smiling Raisha with red roses" data-title="Rose-kissed smiles" data-sub="One smile, a thousand memories.">
       <div class="feature-overlay"><div class="script" id="featureTitle">Papa, Mummy &amp; Raisha</div><p id="featureSub">A little family, a lot of love.</p></div>
     </div>
     <div class="mini-grid">
@@ -104,15 +104,14 @@
 </section>
 
 <section class="section memories">
-  <div class="section-head reveal"><div class="section-kicker">Eight little snapshots</div><h2>Our favourite memories</h2><p>Tap any photograph for a full-screen view.</p></div>
+  <div class="section-head reveal"><div class="section-kicker">Seven little snapshots</div><h2>Our favourite memories</h2><p>Tap any photograph for a full-screen view.</p></div>
   <div class="mini-grid" style="grid-template-columns:repeat(4,1fr)" id="gallery">
     <div class="mini-photo reveal"><img src="assets/photo-1.jpg" alt="Raisha with Winnie"></div>
     <div class="mini-photo reveal delay1"><img src="assets/photo-2.jpg" alt="Raisha enjoying the water"></div>
     <div class="mini-photo reveal delay2"><img src="assets/photo-3.jpg" alt="Smiling Raisha with roses"></div>
     <div class="mini-photo reveal delay3"><img src="assets/photo-4.jpg" alt="Raisha as a baby in a green outfit"></div>
-    <div class="mini-photo reveal"><img src="assets/photo-5.jpg" alt="Raisha with Papa and Mummy by the sea"></div>
+    <div class="mini-photo reveal"><img src="assets/photo-7.jpg" alt="Raisha with Papa and Mummy by the sea"></div>
     <div class="mini-photo reveal delay1"><img src="assets/photo-6.jpg" alt="Raisha with Papa and Mummy outdoors"></div>
-    <div class="mini-photo reveal delay2"><img src="assets/photo-7.jpg" alt="Another happy splashy day"></div>
     <div class="mini-photo reveal delay3"><img src="assets/photo-8.jpg" alt="Raisha with grandparents"></div>
   </div>
 </section>
@@ -138,8 +137,9 @@ music.addEventListener("click",async()=>{if(audio.paused)await playMusic();else{
 $("enter").addEventListener("click",async()=>{await playMusic();welcome.classList.add("hide");document.body.classList.remove("lock");startHearts()});
 function startHearts(){setInterval(()=>{const h=document.createElement("span");h.className="heart";h.textContent=Math.random()>.25?"♡":"✦";h.style.left=(Math.random()*100)+"%";h.style.setProperty("--drift",((Math.random()*2-1)*140)+"px");h.style.animationDuration=(7+Math.random()*6)+"s";$("heartField").appendChild(h);setTimeout(()=>h.remove(),14000)},520)}
 // cinematic photo transitions
-const featureImgs=[...document.querySelectorAll("#featurePhoto img")],titles=["Papa, Mummy &amp; Raisha","Family by the sea","Grandparents ♡","Rose-kissed smiles"],subs=["A little family, a lot of love.","Sunsets feel sweeter together.","Generations of love in one frame.","One smile, a thousand memories."];let fi=0;
-setInterval(()=>{featureImgs[fi].classList.remove("active");fi=(fi+1)%featureImgs.length;featureImgs[fi].classList.add("active");$("featureTitle").innerHTML=titles[fi];$("featureSub").textContent=subs[fi]},5200);
+const featureImgs=[...document.querySelectorAll("#featurePhoto img")];let fi=0;
+function syncFeatureCopy(index){const img=featureImgs[index];$("featureTitle").innerHTML=img.dataset.title;$("featureSub").textContent=img.dataset.sub}
+setInterval(()=>{featureImgs[fi].classList.remove("active");fi=(fi+1)%featureImgs.length;featureImgs[fi].classList.add("active");syncFeatureCopy(fi)},5200);
 // reveal on scroll
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible")}),{threshold:.12});document.querySelectorAll(".reveal:not(.visible)").forEach(el=>observer.observe(el));
 // full-screen gallery
